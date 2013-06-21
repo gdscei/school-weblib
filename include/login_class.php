@@ -23,28 +23,14 @@
 			
 			if(!$this->verifyLogin($u, $w)) return 3;
 			
-			$uid = $this->getUID($u);
-			
-			$wwtoken = $this->makePassToken($this->makePassHash($w));
-			$_SESSION['log-wwtoken'] = $wwtoken;
-			$_SESSION['log-token'] = $this->makeToken($uid, $wwtoken);
-			$_SESSION['log-uid'] = $uid;
+			$this->makeSession(($this->makePassToken($this->makePassHash($w))), ($this->getUID($u)));
 			
 			return 1;
 		}
 		
 		function verifyLogin($u, $ww)
 		{
-			$db = new Database();
-			
-			$stmt = $db->db_connectie->prepare("SELECT wachtwoord FROM account WHERE gebruikersnaam = ?");
-			$stmt->bind_param('s', $u);
-			$stmt->execute();
-			$stmt->bind_result($wwdb);
-			$stmt->fetch();
-			
-			$stmt->close();
-			$db->close();
+			$wwdb = $this->getPw($u);
 			
 			if($this->makePassHash($ww) == $wwdb)
 			{
@@ -56,6 +42,25 @@
 			}
 			
 			return true;
+		}
+		
+		function verifyPersonnel()
+		{
+			if($this->getType($_SESSION['log-uid']) == 1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		function makeSession($wwtoken, $uid)
+		{
+			$_SESSION['log-wwtoken'] = $wwtoken;
+			$_SESSION['log-token'] = $this->makeToken($uid, $wwtoken);
+			$_SESSION['log-uid'] = $uid;
 		}
 		
 		function makePassToken($ww)
@@ -72,16 +77,7 @@
 		
 		function makeToken($uid, $wwtoken)
 		{
-			$db = new Database();
-
-			$stmt = $db->db_connectie->prepare("SELECT gebruikersnaam FROM account WHERE id = ?");
-			$stmt->bind_param('i', $uid);
-			$stmt->execute();
-			$stmt->bind_result($gebr);
-			$stmt->fetch();
-		
-			$stmt->close();
-			$db->close();
+			$gebr = getUser($uid);
 		
 			if(!$gebr || empty($gebr)) return false;
 			
@@ -118,6 +114,54 @@
 			return $uid;
 		}
 		
+		function getUser($uid)
+		{
+			$db = new Database();
+
+			$stmt = $db->db_connectie->prepare("SELECT gebruikersnaam FROM account WHERE id = ?");
+			$stmt->bind_param('i', $uid);
+			$stmt->execute();
+			$stmt->bind_result($gebr);
+			$stmt->fetch();
+		
+			$stmt->close();
+			$db->close();
+			
+			return $gebr;
+		}
+		
+		function getPw($gebr)
+		{
+			$db = new Database();
+			
+			$stmt = $db->db_connectie->prepare("SELECT wachtwoord FROM account WHERE gebruikersnaam = ?");
+			$stmt->bind_param('s', $gebr);
+			$stmt->execute();
+			$stmt->bind_result($wwdb);
+			$stmt->fetch();
+			
+			$stmt->close();
+			$db->close();
+			
+			return $wwdb;
+		}
+		
+		function getType($uid)
+		{
+			$db = new Database();
+		
+			$stmt = $db->db_connectie->prepare("SELECT type FROM account WHERE id = ?");
+			$stmt->bind_param('i', $uid);
+			$stmt->execute();
+			$stmt->bind_result($type);
+			$stmt->fetch();
+			
+			$stmt->close();
+			$db->close();
+			
+			return $type;
+		}
+		
 		function check()
 		{
 			if(!$_SESSION['log-uid'] || empty($_SESSION['log-uid']))
@@ -125,26 +169,14 @@
 				return false;
 			}
 		
-			$db = new Database();
-		
-			$stmt = $db->db_connectie->prepare("SELECT gebruikersnaam FROM account WHERE id = ?");
-			$stmt->bind_param('i', $_SESSION['log-uid']);
-			$stmt->execute();
-			$stmt->bind_result($gebr);
-			$stmt->fetch();
+			$gebr = $this->getUser($_SESSION['log-uid']);
 		
 			if($gebr && !empty($gebr))
 			{
-				$stmt->close();
-				$db->close();
-			
 				return true;
 			}
 			else
 			{
-				$stmt->close();
-				$db->close();
-			
 				session_destroy();
 				$_SESSION = array();
 		

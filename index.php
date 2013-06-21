@@ -1,6 +1,6 @@
 <?php
 
-	require_once("include/functions.php");
+	require_once("includes.php");
 
 	$log = new Login();
 	if(!$log->check()) header('Location: login.php');
