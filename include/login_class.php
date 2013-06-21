@@ -1,6 +1,6 @@
 <?php
 
-	require_once("db_class.php");
+	require_once("config.php");
 	
 	class Login
 	{
@@ -40,8 +40,6 @@
 			{
 				return false;
 			}
-			
-			return true;
 		}
 		
 		function verifyPersonnel()
@@ -65,23 +63,23 @@
 		
 		function makePassToken($ww)
 		{
-			$tokww = md5("JKOGg8Kg._".sha1("KOG9gg8+_".$ww));
+			$tokww = md5(TOKEN_SALT1.sha1(TOKEN_SALT2.$ww));
 			return $tokww;
 		}
 		
 		function makePassHash($ww)
 		{
-			$hash = sha1(md5("KKOGgao9_".$ww)."OKg,g.aj91_");
+			$hash = sha1(md5(HASH_SALT1.$ww).HASH_SALT2);
 			return $hash;
 		}
 		
 		function makeToken($uid, $wwtoken)
 		{
-			$gebr = getUser($uid);
+			$gebr = $this->getUser($uid);
 		
 			if(!$gebr || empty($gebr)) return false;
 			
-			$token = md5(sha1($gebr."AkdkoG95_".$wwtoken."qOAka08915.._")."kogakogJG_-0");
+			$token = md5(sha1($gebr.TOKEN_SALT3.$wwtoken.TOKEN_SALT4).TOKEN_SALT5);
 			return $token;
 		}
 	
