@@ -1,6 +1,8 @@
 <?php
 
-	require_once("include/functions.php");
+	//error_reporting(E_ALL);
+	//ini_set("display_errors", 1);
+	require_once("includes.php");
 	
 	$log = new Login();
 	if($log->check()) header('Location: cpanel.php');

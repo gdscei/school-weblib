@@ -1,0 +1,67 @@
+html, body {
+	width:99%;
+	height:99%;
+}
+
+#logo {
+	height:100px;
+	width:200px;
+	border:1px solid black;
+	float:left;
+}
+
+#navbar {
+	border:1px solid black;
+	position:absolute;
+	left:220px;
+	height:25px;
+	top:83px;
+	width:83%;
+}
+
+#usercp {
+	border:1px solid black;
+	position:absolute;
+	left:10px;
+	top:150px;
+	height:167px;
+	width:120px;
+}
+
+/* href is standard an inline element, make it a block */
+#usercp a {
+	display:inline-block;
+}
+
+#usercp_button_active {
+	border-bottom:1px solid black;
+	width:115px;
+	background-color:cyan;
+	padding-left:5px;
+}
+
+.usercp_button_inactive {
+	border-bottom:1px solid black;
+	width:115px;
+	padding-left:5px;
+}
+
+#nav_button_active {
+	border:1px solid red;
+	width:80px;
+	text-align:center;
+	margin-top:1px;
+	float:left;
+	margin-left:5px;
+	background-color:cyan;
+}
+
+.nav_button_inactive {
+	border:1px solid red;
+	width:80px;
+	text-align:center;
+	margin-top:1px;
+	float:left;
+	margin-left:5px;
+	background-color:#D8D8D8;
+}

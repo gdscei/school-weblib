@@ -1,0 +1,70 @@
+body,html{
+	width:99.7%;
+	height:99.5%;
+}
+
+#container{
+	width:80%;
+	height:80%;
+	border:1px solid black;
+}
+
+#logo {
+	float:left;
+	margin-top:30px;
+	margin-left:30px;
+}
+
+#inhoud_tekst{
+	float:left;
+	margin-top:30px;
+	margin-left:10px;
+	width:60%;
+	height:120px;
+	border:1px solid black;
+	overflow-y:auto;
+}
+
+#float_left {
+	float:left;
+	padding-left:10px;
+}
+
+#button {
+	position:absolute;
+	top:170px;
+	left:110px;
+}
+
+#overzichttekst{
+	text-align:center;
+	margin-top:100px;
+}
+#qr_code_links{
+	margin-left:50px;
+	float:left;
+}
+
+#bedanktstem{
+	text-align:center;
+	margin-left:100px;
+}
+#banaan{
+	text-align:center;
+	margin-left:100px;
+}
+#google{
+	text-align:center;
+	margin-left:50%;
+}
+
+.qr_image {
+	width:250px;
+	height:250px;
+}
+
+.qr_code {
+	margin-left:50px;
+	float:left;
+	display:inline-block;
+}

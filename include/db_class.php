@@ -1,5 +1,5 @@
 <?php
-require_once("db_config.php"); // database configuratie laden
+require_once("config.php"); // database configuratie laden
 
 class Database 
 {
