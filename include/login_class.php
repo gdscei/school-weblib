@@ -41,10 +41,33 @@
 			{
 				return false;
 			}
+<<<<<<< HEAD
+=======
 		}
 		
 		function verifyPersonnel()
 		{
+			if($this->getType($_SESSION['log-uid']) == 1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		function makeSession($wwtoken, $uid)
+		{
+			$_SESSION['log-wwtoken'] = $wwtoken;
+			$_SESSION['log-token'] = $this->makeToken($uid, $wwtoken);
+			$_SESSION['log-uid'] = $uid;
+>>>>>>> fa5779a589a35360436c582035f4a87c47e12f8a
+		}
+		
+		function verifyPersonnel()
+		{
+<<<<<<< HEAD
 			if($this->getType($_SESSION['log-uid']) == 1)
 			{
 				return true;
@@ -64,6 +87,8 @@
 		
 		private function makePassToken($ww)
 		{
+=======
+>>>>>>> fa5779a589a35360436c582035f4a87c47e12f8a
 			$tokww = md5(TOKEN_SALT1.sha1(TOKEN_SALT2.$ww));
 			return $tokww;
 		}
@@ -129,7 +154,11 @@
 			return $gebr;
 		}
 		
+<<<<<<< HEAD
 		private function getPw($gebr)
+=======
+		function getPw($gebr)
+>>>>>>> fa5779a589a35360436c582035f4a87c47e12f8a
 		{
 			$db = new Database();
 			
@@ -145,7 +174,11 @@
 			return $wwdb;
 		}
 		
+<<<<<<< HEAD
 		private function getType($uid)
+=======
+		function getType($uid)
+>>>>>>> fa5779a589a35360436c582035f4a87c47e12f8a
 		{
 			$db = new Database();
 		
