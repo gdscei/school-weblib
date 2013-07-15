@@ -8,12 +8,8 @@
 	$db_user = "weblib"; // Database gebruikersnaam
 	$db_pw = "kenialib"; // Database wachtwoord
 	$db_host = "localhost"; // Database hostnaam
-<<<<<<< HEAD
 	$db_db = "kenialib"; // Database
-=======
-	$db_db = "alab_bib"; // Database
->>>>>>> fa5779a589a35360436c582035f4a87c47e12f8a
-	
+
 	/*
 		De volgende variabelen zijn voor de verschillende hash-functies. 
 		Let op, als er al een hash wordt gebruikt in de database zullen deze daar ook moeten worden aangepast!
@@ -27,7 +23,6 @@
 	$token_salt3 = "kogakogJG_-0";
 	$token_salt4 = "KKOGgao9_";
 	$token_salt5 = "OKg,g.aj91_";
-	
 	
 	// Dit gedeelte hoeft niet aangepast te worden
 	if(!defined('DB_USERNAME'))	
@@ -62,8 +57,4 @@
 	
 	if(!defined('TOKEN_SALT5'))
 		define('TOKEN_SALT5', $token_salt5);
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> fa5779a589a35360436c582035f4a87c47e12f8a

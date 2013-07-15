@@ -1,14 +1,12 @@
 <?php
 
 	require_once("config.php");
-
+	
 	class Login
 	{
 		function __construct()
 		{
-			if (!session_id()) { // check if session is already started
-				session_start();
-			}
+			session_start();
 		}
 		
 		function login($u, $w)
@@ -20,7 +18,7 @@
 				3 = Verkeerd gebruikersnaam/ww
 			*/
 			
-			if(isset($_SESSION['log-token'])) return 0;
+			if($_SESSION['log-token']) return 0;
 			
 			if(!$u || empty($u) || !$w || empty($w)) return 2;
 			
@@ -32,31 +30,13 @@
 		}
 		
 		function verifyLogin($u, $ww)
-		{
-			$wwdb = $this->getPw($u);
-			
-			/*if($this->makePassHash($ww) == $wwdb)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}*/
-			return $this->makePassHash($ww) == $wwdb;
+		{	
+			return ($this->makePassHash($ww) == ($this->getPw($u)));
 		}
 		
 		function verifyPersonnel()
 		{
-			/*if($this->getType($_SESSION['log-uid']) == 1)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}*/
-			return $this->getType($_SESSION['log-uid']) == 1;
+			return ($this->getType($_SESSION['log-uid']) == 1);
 		}
 
 		private function makeSession($wwtoken, $uid)
@@ -68,14 +48,12 @@
 		
 		private function makePassToken($ww)
 		{
-			$tokww = md5(TOKEN_SALT1.sha1(TOKEN_SALT2.$ww));
-			return $tokww;
+			return md5(TOKEN_SALT1.sha1(TOKEN_SALT2.$ww));
 		}
 
-		function makePassHash($ww)
+		private function makePassHash($ww)
 		{
-			$hash = sha1(md5(HASH_SALT1.$ww).HASH_SALT2);
-			return $hash;
+			return sha1(md5(HASH_SALT1.$ww).HASH_SALT2);
 		}
 		
 		private function makeToken($uid, $wwtoken)
@@ -85,8 +63,8 @@
 			if(!$gebr || empty($gebr)) {
 				return false;
 			}
-			$token = md5(sha1($gebr.TOKEN_SALT3.$wwtoken.TOKEN_SALT4).TOKEN_SALT5);
-			return $token;
+
+			return md5(sha1($gebr.TOKEN_SALT3.$wwtoken.TOKEN_SALT4).TOKEN_SALT5);
 		}
 	
 		private function verifyToken($token, $uid)
@@ -94,16 +72,8 @@
 			if(!($mkTokenParam = $this->makeToken($uid))) {
 				return false;
 			}
-			/*if($mkTokenParam == $token)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}*/
 
-			return $mkTokenParam == $token;
+			return ($mkTokenParam == $token);
 		}
 		
 		private function getUID($u)
@@ -172,7 +142,7 @@
 		
 		function check()
 		{
-			if(!isset($_SESSION['log-uid']) || empty($_SESSION['log-uid']))
+			if(!$_SESSION['log-uid'] || empty($_SESSION['log-uid']))
 			{
 				return false;
 			}
@@ -198,8 +168,7 @@
 				echo "<a href='login.php' class='usercp_button_inactive'>Login</a>
 					  <a href='register.php' class='usercp_button_inactive'>Register</a>";
 			} else if($this->verifyPersonnel()) { // administrator
-				echo "<a href='account.php' class='usercp_button_inactive'>Account info</a>
-					  <a href='users.php' class='usercp_button_inactive'>Users</a>
+				echo "<a href='users.php' class='usercp_button_inactive'>Users</a>
 					  <a href='lendasset.php' class='usercp_button_inactive'>Lend asset</a>
 					  <a href='addasset.php' class='usercp_button_inactive'>Add asset</a>
 					  <a href='borrowed.php' class='usercp_button_inactive'>Borrowed assets</a>

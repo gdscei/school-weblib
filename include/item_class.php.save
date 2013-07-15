@@ -108,29 +108,31 @@
 
 			$db = new Database();
 
-			if(!($stmt = $db->db_connectie->prepare("SELECT id, itemid, datum_geleend, datum_terug FROM uitgeleend WHERE accountid = 3 AND ingeleverd = 0")))
+			if(!($stmt = $db->db_connectie->prepare("SELECT id, itemid, datum_geleend, datum_terug FROM uitgeleend WHERE accountid = ? AND ingeleverd = 0")))
 			{
 				echo "ERROR";
 				echo $db->db_connectie->error;
 			}
-			//if(!($stmt->bind_param('i', $accountid)))
-			//	echo "ErrBind";
+			if(!($stmt->bind_param('i', $accountid)))
+				echo "ErrBind";
 			if(!($stmt->execute()))
 				echo "ErrExec";
-			if(!($stmt->bind_result($id, $itemid, $datumGel, $datumTer)))
-				echo "ErrBindRes";
+			if(!($stmt->bind
 
 			$resultArray = array();
-
-			while($stmt->fetch())
+			echo "Created array...";
+			while ($stmt->fetch())
 			{
+				echo "Fetching...";
 				$resultArray[$id]['itemid'] = $itemid;
 				$resultArray[$id]['datum_geleend'] = $datumGel;
 				$resultArray[$id]['datum_terug'] = $datumTer;
 			}
+
 			$stmt->close();
 			$db->close();
 
+			echo "Returning...";
 			return $resultArray;
 		}
 	}
